@@ -1,0 +1,5 @@
+Vincent Rijmen, Paulo S. L. M. Barreto
+NESSIE submission 2000
+http://en.wikipedia.org/wiki/NESSIE
+
+http://www.larc.usp.br/~pbarreto/AnubisPage.html

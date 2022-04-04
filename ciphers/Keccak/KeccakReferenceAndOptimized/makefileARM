@@ -1,0 +1,86 @@
+all: KeccakOptimized32 KeccakARMasm
+
+SOURCES_COMMON = \
+    Sources/KeccakDuplex.c \
+    Sources/KeccakNISTInterface.c \
+    Sources/KeccakSponge.c \
+    Sources/mainARM.c
+
+SOURCES_OPTIMIZED_32 = \
+    $(SOURCES_COMMON) \
+    Sources/KeccakF-1600-opt32.c
+
+SOURCES_ASM = \
+    $(SOURCES_COMMON) \
+    Sources/KeccakF-1600-arm.c \
+    Sources/KeccakF-1600-armgcc.s
+
+HEADERS_COMMON = \
+    Sources/KeccakDuplex.h \
+    Sources/KeccakNISTInterface.h \
+    Sources/KeccakSponge.h \
+    Sources/KeccakF-1600-interface.h \
+    Sources/KeccakF-1600-unrolling.macros
+
+HEADERS_OPTIMIZED_32 = \
+    $(HEADERS_COMMON) \
+    Sources/KeccakF-1600-opt32-settings.h \
+    Sources/KeccakF-1600-32.macros \
+    Sources/KeccakF-1600-32-s1.macros \
+    Sources/KeccakF-1600-32-s2.macros \
+    Sources/KeccakF-1600-32-rvk.macros
+
+HEADERS_ASM = \
+    $(HEADERS_COMMON)
+
+BINDIR_OPTIMIZED_32 = binARM/optimized32
+
+$(BINDIR_OPTIMIZED_32):
+	mkdir -p $(BINDIR_OPTIMIZED_32)
+
+BINDIR_ASM = binARM/asm
+
+$(BINDIR_ASM):
+	mkdir -p $(BINDIR_ASM)
+
+OBJECTS_OPTIMIZED_32 = $(addprefix $(BINDIR_OPTIMIZED_32)/, $(notdir $(patsubst %.c,%.o,$(SOURCES_OPTIMIZED_32))))
+
+OBJECTS_ASM = $(addprefix $(BINDIR_ASM)/, $(notdir $(patsubst %.c,%.o,$(patsubst %.s,%.o,$(SOURCES_ASM)))))
+
+CC = arm-elf-gcc
+CFLAGS_OPTIMIZED_32 = -O3
+CFLAGS_ASM = -O3 -mthumb #-mcpu=cortex-m3
+
+#CC = armcc
+#CFLAGS_OPTIMIZED_32 = --device=DARMSTM -O3
+#CFLAGS_ASM = --device=DARMSTM -O3
+
+VPATH = Sources
+
+INCLUDES = -ISources
+
+$(BINDIR_OPTIMIZED_32)/%.o:%.c $(HEADERS_OPTIMIZED_32)
+	$(CC) $(INCLUDES) $(CFLAGS_OPTIMIZED_32) -c $< -o $@
+
+$(BINDIR_ASM)/%.o:%.c $(HEADERS_ASM)
+	$(CC) $(INCLUDES) $(CFLAGS_ASM) -c $< -o $@
+
+$(BINDIR_ASM)/%.o:%.s $(HEADERS_ASM)
+	$(CC) $(INCLUDES) $(CFLAGS_ASM) -c $< -o $@
+
+.PHONY: KeccakOptimized32 KeccakARMasm
+
+KeccakOptimized32: binARM/KeccakOptimized32
+
+binARM/KeccakOptimized32:  $(BINDIR_OPTIMIZED_32) $(OBJECTS_OPTIMIZED_32)  $(HEADERS_OPTIMIZED_32)
+	$(CC) $(CFLAGS_OPTIMIZED_32) -o $@ $(OBJECTS_OPTIMIZED_32)
+
+KeccakARMasm: binARM/KeccakARMasm
+
+binARM/KeccakARMasm:  $(BINDIR_ASM) $(OBJECTS_ASM)  $(HEADERS_ASM)
+	$(CC) $(CFLAGS_ASM) -o $@ $(OBJECTS_ASM)
+
+.PHONY: clean
+
+clean:
+	rm -rf binARM/

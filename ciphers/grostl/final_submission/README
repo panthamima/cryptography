@@ -1,0 +1,79 @@
+------------------------------------------
+README
+
+Submitter: Lars R. Knudsen
+Algorithm: Groestl
+
+This file describes the contents of the
+submission package.
+
+------------------------------------------
+
+./README:  This file.
+
+./Reference_Implementation/brg_types.h:  Brian Gladman's header file defining a number of data types (some changes have been made).
+./Reference_Implementation/Groestl-ref.h:  Header file for the Groestl reference implementation.
+./Reference_Implementation/Groestl-ref.c:  The Groestl reference implementation.
+
+./Optimized_64bit/brg_types.h:  Brian Gladman's header file defining a number of data types (some changes have been made).
+./Optimized_64bit/brg_endian.h:  Brian Gladman's header file for detecting system endianness.
+./Optimized_64bit/tables.h:  Header file containing tables needed in the 64-bit optimised implementation of Groestl.
+./Optimized_64bit/Groestl-opt.h:  Header file for the 64-bit optimised implementation of Groestl.
+./Optimized_64bit/Groestl-opt.c:  The 64-bit optimised implementation of Groestl.
+
+./Optimized_32bit/brg_types.h:  Brian Gladman's header file defining a number of data types (some changes have been made).
+./Optimized_32bit/brg_endian.h:  Brian Gladman's header file for detecting system endianness.
+./Optimized_32bit/tables.h:  Header file containing tables needed in the 32-bit optimised implementation of Groestl.
+./Optimized_32bit/Groestl-opt.h:  Header file for the 32-bit optimised implementation of Groestl.
+./Optimized_32bit/Groestl-opt.c:  The 32-bit optimised implementation of Groestl.
+
+./Additional_Implementations/Print_Intermediate_Values/brg_types.h:  Brian Gladman's header file defining a number of data types (some changes have been made).
+./Additional_Implementations/Print_Intermediate_Values/Groestl-intermediate.h:  Header file for a reference implementation of Groestl that prints intermediate state values.
+./Additional_Implementations/Print_Intermediate_Values/Groestl-intermediate.c:  A reference implementation of Groestl that prints intermediate state values.
+
+./Additional_Implementations/MMX_Intrinsics/brg_types.h:  Brian Gladman's header file defining a number of data types (some changes have been made).
+./Additional_Implementations/MMX_Intrinsics/brg_endian.h:  Brian Gladman's header file for detecting system endianness.
+./Additional_Implementations/MMX_Intrinsics/tables.h:  Header file containing tables needed in the intrinsics implementation of Groestl.
+./Additional_Implementations/MMX_Intrinsics/Groestl-mmx.h:  Header file for the intrinsics implementation of Groestl.
+./Additional_Implementations/MMX_Intrinsics/Groestl-mmx.c:  The intrinsics implementation of Groestl.
+
+./Additional_Implementations/Assembly/Optimized_for_AESNI/*: C implementation of Groestl with inline SSE3 and AESNI assembly.
+
+./Additional_Implementations/Assembly/Optimized_for_Core2Duo/groestl256/*,
+./Additional_Implementations/Assembly/Optimized_for_Core2Duo/groestl512/*,
+./Additional_Implementations/Assembly/Optimized_for_Opteron/groestl256/*,
+./Additional_Implementations/Assembly/Optimized_for_Opteron/groestl512/*, and
+./Additional_Implementations/Assembly/Optimized_for_Opteron_Unrolled/groestl256/*:
+All these folders contain optimized implementations in C with inline assembly. These implementations are all targeted the eBASH API.
+
+./Additional_Implementations/sphlib_Adapted/groestl256/* and
+./Additional_Implementations/sphlib_Adapted/groestl512/*:
+These two folders contain optimized implementations based on the Groestl-0 implementation from sphlib v.2.1 (http://www.saphir2.com/sphlib/). The implementations are targeted the eBASH API.
+
+./KAT_MCT/IntermediateValues_1BlockMsg_224.txt:  Intermediate state values for a 1-block message hashed by Groestl-224.
+./KAT_MCT/IntermediateValues_1BlockMsg_256.txt:  Intermediate state values for a 1-block message hashed by Groestl-256.
+./KAT_MCT/IntermediateValues_1BlockMsg_384.txt:  Intermediate state values for a 1-block message hashed by Groestl-384.
+./KAT_MCT/IntermediateValues_1BlockMsg_512.txt:  Intermediate state values for a 1-block message hashed by Groestl-512.
+./KAT_MCT/IntermediateValues_2BlockMsg_224.txt:  Intermediate state values for a 2-block message hashed by Groestl-224.
+./KAT_MCT/IntermediateValues_2BlockMsg_256.txt:  Intermediate state values for a 2-block message hashed by Groestl-256.
+./KAT_MCT/IntermediateValues_2BlockMsg_384.txt:  Intermediate state values for a 2-block message hashed by Groestl-384.
+./KAT_MCT/IntermediateValues_2BlockMsg_512.txt:  Intermediate state values for a 2-block message hashed by Groestl-512.
+./KAT_MCT/ExtremelyLongMsgKAT_224.txt:  KAT results file as specified in the call.
+./KAT_MCT/ExtremelyLongMsgKAT_256.txt:  KAT results file as specified in the call.
+./KAT_MCT/ExtremelyLongMsgKAT_384.txt:  KAT results file as specified in the call.
+./KAT_MCT/ExtremelyLongMsgKAT_512.txt:  KAT results file as specified in the call.
+./KAT_MCT/LongMsgKAT_224.txt:  KAT results file as specified in the call.
+./KAT_MCT/LongMsgKAT_256.txt:  KAT results file as specified in the call.
+./KAT_MCT/LongMsgKAT_384.txt:  KAT results file as specified in the call.
+./KAT_MCT/LongMsgKAT_512.txt:  KAT results file as specified in the call.
+./KAT_MCT/MonteCarlo_224.txt:  KAT results file as specified in the call.
+./KAT_MCT/MonteCarlo_256.txt:  KAT results file as specified in the call.
+./KAT_MCT/MonteCarlo_384.txt:  KAT results file as specified in the call.
+./KAT_MCT/MonteCarlo_512.txt:  KAT results file as specified in the call.
+./KAT_MCT/ShortMsgKAT_224.txt:  KAT results file as specified in the call.
+./KAT_MCT/ShortMsgKAT_256.txt:  KAT results file as specified in the call.
+./KAT_MCT/ShortMsgKAT_384.txt:  KAT results file as specified in the call.
+./KAT_MCT/ShortMsgKAT_512.txt:  KAT results file as specified in the call.
+
+./Supporting_Documentation/Groestl.pdf:  Specification of the Groestl algorithm (PDF).
+./Supporting_Documentation/Round3Mods.pdf:  Description of Round 3 modifications made to Groestl (PDF).

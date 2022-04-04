@@ -1,0 +1,207 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<title>Rijndael Encryption Algorithm</title>
+<meta name="description" content="A C program for Rijndael Encryption 
+Algorithm.">
+</head><body>
+
+<table>
+<tbody><tr>
+<td>
+<a href="http://efgh.com/software/index.html"><img 
+src="rijndael_files/sitelogo.gif" alt="LOGO" width="120" height="114"></a>
+</td>
+<td>
+<center><h1>Rijndael Encryption Algorithm</h1></center>
+</td>
+</tr>
+</tbody></table>
+
+<dl>
+<dt>Title:       </dt><dd>Rijndael Encryption Algorithm
+</dd><dt>Language:    </dt><dd>C
+</dd><dt>Author:      </dt><dd>Philip J. Erdelsky
+                 <ul>
+                 <li><a href="mailto:pje@efgh.com">pje@efgh.com</a>
+                 </li><li><a 
+href="http://www.alumni.caltech.edu/%7Epje/">
+                     http://www.alumni.caltech.edu/~pje/</a>
+                 </li></ul>
+</dd><dt>Date:        </dt><dd>September 3, 2002
+</dd><dt>Usage:       </dt><dd>Public domain; no restrictions on use
+</dd><dt>Portability: </dt><dd>Any C environment, also compiles as C++
+</dd><dt>Keywords:    </dt><dd>rijndael, cryptography
+</dd><dt>Abstract:    </dt><dd>A C package for the Rijndael Encryption 
+Algorithm
+</dd><dt>Source code: </dt><dd><a 
+href="http://efgh.com/software/rijndael.txt">rijndael.txt</a>
+</dd></dl>
+
+<p>
+The Rijndael encryption algorithm has been designed to replace the
+aging DES algorithm. Like DES, it is a block cipher. It uses 128-bit,
+192-bit or 256-bit keys. This implementation encrypts 128-bit blocks.
+(DES used 56-bit keys and 64-bit blocks.)
+
+</p><p>
+The code in this package is a modified version of an implementation
+placed in the public domain by the following persons:
+
+</p><ul>
+    <li>Vincent Rijmen
+    <a href="mailto:vincent.rijmen@esat.kuleuven.ac.be">
+    vincent.rijmen@esat.kuleuven.ac.be</a>
+    </li><li>Antoon Bosselaers
+    <a href="mailto:antoon.bosselaers@esat.kuleuven.ac.be">
+    antoon.bosselaers@esat.kuleuven.ac.be</a>
+    </li><li>Paulo Barreto
+    <a href="mailto:paulo.barreto@terra.com.br">
+    paulo.barreto@terra.com.br</a>
+</li></ul>
+
+<p>
+The original code has been posted as <a 
+href="http://efgh.com/software/rijndael.zip">rijndael.zip</a>.
+
+</p><p>
+The modified code is easier to use than the original, and it compiles
+as either C or C++.
+
+</p><p>
+The modified code resides in the files rijndael.h and rijndael.c,
+which have been combined into the single file <a 
+href="http://efgh.com/software/rijndael.txt">
+rijndael.txt</a>. Download this file and then use a text editor to
+separate the two components. Then #include the file rijndael.h in
+any module that uses Rijndael encryption, and compile and link the
+file rijndael.c to the application.
+
+</p><p>
+To perform Rijndael encryption or decryption,
+first set up a buffer for encryption or decryption:
+
+</p><pre>     nrounds = rijndaelSetupEncrypt(rk, key, keybits);  for encryption
+     nrounds = rijndaelSetupDecrypt(rk, key, keybits);  for decryption
+
+     unsigned long *rk;   pointer to encryption/decryption buffer,
+                          required space:
+                            keybits  32-bit words required
+                            128      44
+                            192      52
+                            256      60
+
+     const unsigned char *key;  key, where length in bytes is:
+                                  keybits  number of bytes
+                                  128      16
+                                  192      24
+                                  256      32
+
+     int keybits;         number of bits in key, must be 128, 192 or
+                          256
+
+     int nrounds;         number of rounds:
+                            keybits  nrounds
+                            128      10
+                            192      12
+                            256      14
+</pre>
+
+<p>
+The package provides three macros to convert the keybits value to 
+closely
+related values:
+
+</p><pre>     KEYLENGTH(keybits) number of bytes in key[] array
+     RKLENGTH(keybits)  number of 32-bit words in rk[] array
+     NROUNDS(keybits)   number of rounds
+</pre>
+
+<p>
+Encryption and decryption are performed, a block at a time, with the
+following two functions:
+
+</p><pre>     rijndaelEncrypt(rk, nrounds, plaintext, ciphertext);
+     rijndaelDecrypt(rk, nrounds, ciphertext, plaintext);
+
+     const unsigned long *rk;
+                          pointer to encryption/decryption buffer which
+                          was filled by rijndaelSetupEncrypt() or
+                          rijndaelSetupDecrypt()
+
+     int nrounds;         number of rounds, as computed by
+                          rijndaelSetupEncrypt(),
+                          rijndaelSetupDecrypt() or NROUNDS
+
+     [const] unsigned char plaintext[16];
+     [const] unsigned char ciphertext[16];
+                          pointers to 16-byte buffers to be encrypted
+                          or decrypted; the source buffer has a const
+                          qualifier
+</pre>
+
+<p>
+To satisfy the truly paranoid user, it is probably advisable to clear
+and delete the buffers after the process is finished.
+
+</p><p>
+In the file rijndael.c, a preprocessor macro FULL_UNROLL has been 
+defined.
+This causes the compiler to generate inline code instead of loops in 
+some
+places. This produces faster but larger code. You may want to remove 
+this
+definition if you are programming for an environment that needs smaller
+but slower code.
+
+</p><p>
+The downloaded source code also includes a simple file encryption 
+program
+and its corresponding decryption program.
+
+</p><p>
+The encryption program is called as follows:
+
+</p><pre>     encrypt  password  cryptofile
+</pre>
+
+<p>
+It encrypts the standard input (padding it with spaces, if necessary),
+and writes the result to the specified cryptofile.
+
+</p><p>
+The decryption program is called as follows:
+
+</p><pre>    decrypt  password  cryptofile
+</pre>
+
+<p>
+It decrypts the cryptofile contents and sends the result (padded with
+spaces, if necessary) to the standard
+output.
+
+</p><p>
+These programs should be used
+only for demonstration purposes, because the use of a password as a key
+gives an effective key length much shorter than the 256-bit key passed
+to the Rijndael encryption package.
+
+</p><p>
+The programs also have another shortcoming that some users may object 
+to.
+They encrypt and decrypt each 128-bit block separately. If the plaintext
+contains identical 128-byte blocks, as many text files do, the blocks 
+will be
+encrypted identically. This makes some of the plaintext structure
+visible in the ciphertext, even to someone who does not have the key. 
+The
+usual practice is to combine each block after the first with the 
+previous
+blocks (usually by some kind of XOR operation) before encrypting it. 
+This
+hides repeated blocks very effectively, but it can wreak havoc if even
+one block of
+ciphertext is corrupted. The corrupted block AND
+ALL SUBSEQUENT BLOCKS will become unreadable.
+
+</p></body></html>
