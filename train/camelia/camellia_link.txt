@@ -1,0 +1,5 @@
+[CRYPTREC 2001]
+Nippon Telegraph and Telephone Corporation: Kazumaro Aoki, Masayuki Kanda, Shiho Moriai
+Mitsubishi Electric Corporation: Tetsuya Ichikawa, Mitsuru Matsui, Junko Nakajima, Toshio Tokita
+
+http://info.isl.ntt.co.jp/crypt/eng/camellia/technology.html
